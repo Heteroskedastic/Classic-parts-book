@@ -1,0 +1,11 @@
+
+.form-border {
+	outline: 1px solid orange;
+}
+
+.margn{
+	margin: 15px;
+}
+button#save_details{
+	color: rgb(26, 2, 2);
+}

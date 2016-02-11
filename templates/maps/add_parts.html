@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block content %}
+
+	<div class="col-md-6">
+	  {% thumbnail image.image "300x400" crop="center" as im %}
+	 	<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+	  {% endthumbnail %}
+	</div>
+
+<ul>
+    {% for message in messages.errors %}
+        {% if 'error' in message.tags %}<li>{{ message }}</li>{% endif %}
+    {% endfor %}
+</ul>
+
+	<h2> Select parts for image </h2>
+	<form action="" method="post">
+	  {% csrf_token %}
+	  <input type="hidden" id="image_id" name="image">
+	  {% for part in parts %}
+	  	<div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="{{part.id}}" name="parts[]">
+		    {{part}}
+		  </label>
+		</div>
+	  {% endfor %}
+
+	  <input type="submit" value="save">
+
+	</form>
+
+	<!--  -->
+	<div class="col-md-6 margn">
+		<form action="" method="post">
+		{% csrf_token %}
+			{{form_part}}
+		  <input type="submit" value="save">
+
+		</form>
+	</div>
+{% endblock content %}
+
+{% block javascript %}
+<script type="text/javascript">
+  $( document ).ready(function() {
+  	console.log({{image.id}})
+  	 var img_id = {{image.id}}
+     $("#image_id").val(img_id)
+  });
+</script>
+{% endblock %}

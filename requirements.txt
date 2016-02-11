@@ -1,0 +1,8 @@
+Django==1.8.3
+Pillow==3.0.0
+PyPDF2==1.25.1
+Wand==0.4.1
+pilkit==1.1.13
+psycopg2==2.6.1
+six==1.10.0
+sorl-thumbnail==12.3

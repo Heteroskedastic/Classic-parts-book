@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+
+<ul>
+
+<h3> List of Attrs </h3>
+
+{% for map in map_attrs %}
+	<h4> <li> {{map}} </li> </h4>
+{% endfor %}
+</ul>
+
+{% endblock %}

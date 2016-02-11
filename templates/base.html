@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %} Image map {% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- CSS -->
+        {% block mainstyles %}
+          <link href="{{ STATIC_URL }}css/bootstrap.css" type="text/css" rel="stylesheet">
+          <!--  -->
+          <link href="{{STATIC_URL}}css/map_custom.css" type="text/css" rel="stylesheet" />
+          <!-- <link href="{{ STATIC_URL }}css/application.css" rel="stylesheet"> -->
+          {% block css %}
+          {% endblock %}
+        {% endblock %}
+    </head>
+
+    <body>
+      {% block container %}
+        {% block header %}
+          {% include "header.html" %}
+        {% endblock%}
+
+        {% block main-container%}
+
+          <div class="container-fluid main-container">
+            {% block content %}
+
+            {% endblock%}
+          </div>
+        {% endblock%}
+      {% endblock%}
+
+        <!-- Le javascript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- JS -->
+        <noscript>
+          <div id="noscript">
+            Please, enable javascript in your browser
+          </div>
+        </noscript>
+
+        <script src="{{ STATIC_URL }}js/jquery.js"></script>
+        <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
+        <!--  -->
+        <script type="text/javascript" src="{{STATIC_URL}}js/scripts.js"></script>
+        <!-- // <script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script> -->
+        <script type="text/javascript" src="{{STATIC_URL}}js/custom_map.js"></script>
+
+        {% block javascript %}
+
+        {% endblock %}
+
+    </body>
+
+</html>
