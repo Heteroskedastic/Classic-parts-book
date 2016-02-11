@@ -61,22 +61,22 @@ WSGI_APPLICATION = 'image_mapping.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'img_map',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'USER': 'chills',
-        'PASSWORD': 'raWoDwigaKaUYW'
+        'NAME': '',
+        'HOST': '',
+        'PORT': '',
+        'USER': '',
+        'PASSWORD': ''
     }
 }
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'img_map',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#         'USER': 'cis',
-#         'PASSWORD': '123'
+#         'NAME': '',
+#         'HOST': '',
+#         'PORT': '',
+#         'USER': '',
+#         'PASSWORD': ''
 #     }
 # }
 
