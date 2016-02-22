@@ -1,3 +1,4 @@
+import os
 """
 Django settings for image_mapping project.
 
@@ -12,17 +13,18 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+DEVELOPER_ENV = os.getenv('DEVELOPER_ENV')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'trka7qy9w*bq+6)vl1)6bbetb@i+x-h0-ustmwlu1+v31l!yo$'
+SECRET_KEY = 'trka7qy9w*bq+6)vl1)6bbetb@i+x-h0-ustmwlu1+v31l!yo$' if DEVELOPER_ENV else os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if DEVELOPER_ENV else False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = True if DEVELOPER_ENV else False
 
 ALLOWED_HOSTS = []
 
@@ -61,24 +63,13 @@ WSGI_APPLICATION = 'image_mapping.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
-        'HOST': '',
-        'PORT': '',
-        'USER': '',
-        'PASSWORD': ''
+        'NAME': 'book' if DEVELOPER_ENV else os.getenv('DB_NAME'),
+        'HOST': '127.0.0.1' if DEVELOPER_ENV else os.getenv('DB_HOST'),
+        'PORT': '5432',
+        'USER': 'book' if DEVELOPER_ENV else os.getenv('DB_USER'),
+        'PASSWORD': 'book' if DEVELOPER_ENV else os.getenv('DB_PASS')
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': '',
-#         'HOST': '',
-#         'PORT': '',
-#         'USER': '',
-#         'PASSWORD': ''
-#     }
-# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
