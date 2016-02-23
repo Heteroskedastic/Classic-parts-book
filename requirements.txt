@@ -8,3 +8,4 @@ six==1.10.0
 sorl-thumbnail==12.3
 celery
 django-celery
+django-braces
