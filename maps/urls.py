@@ -1,13 +1,13 @@
 from django.conf.urls import patterns, url
 
-from maps.views import *
+from maps.views import HomeView, ImageMapView, AddPartsView, MapCreate, UploadBook
 
 urlpatterns = patterns('',
                        url(r'^$', HomeView.as_view(), name='home'),
                        url(r'^tool/$', ImageMapView.as_view(),
                            name='image_map'),
-                       url(r'^images/$', ShowImageView.as_view(),
-                           name='image_show'),
+                       url(r'^upload_book/$', UploadBook.as_view(),
+                           name='upload_book'),
                        url(r'^add_parts/(?P<id>\d+)/$', AddPartsView.as_view(),
                            name='add_part'),
                        url(r'^map_attr/$', MapCreate.as_view(),

@@ -3,23 +3,23 @@
 
 {% block content %}
 
-	<div class="col-md-12">
-		<form action="." method="POST" enctype="multipart/form-data" class="form-border margn">
-		 {% csrf_token %} 
-			{{form}}
-			<input type="submit" value="submit" class="margn">
-		</form>
-	</div>
+    <div class="col-md-12">
+        <form action="." method="POST" enctype="multipart/form-data" class="form-border margn">
+         {% csrf_token %}
+            {{form}}
+            <input type="submit" value="submit" class="margn">
+        </form>
+    </div>
 
 
-	{% for img in images %}
-		{% thumbnail img.image "100x100" crop="center" as im %}
-		<div class="col-xs-6 col-md-4">
-		    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-			<a href="{% url 'add_part' img.id %}"> Add Parts </a>
-		</div>
-		{% endthumbnail %}
+    {% for img in images %}
+        {% thumbnail img.image "100x100" crop="center" as im %}
+        <div class="col-xs-6 col-md-4">
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            <a href="{% url 'add_part' img.id %}"> Add Parts </a>
+        </div>
+        {% endthumbnail %}
 
-	{% endfor %}
+    {% endfor %}
 
 {% endblock content %}

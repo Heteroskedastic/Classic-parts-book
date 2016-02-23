@@ -1,12 +1,12 @@
 from django import forms
-from .models import *
+from .models import MapAttribute, PartFile, Part
 
 
-class ImageForm(forms.ModelForm):
+class BookForm(forms.ModelForm):
 
     class Meta:
         model = PartFile
-        exclude = ['file_images']
+        exclude = ['created']
 
 
 class MapAttributeForm(forms.ModelForm):

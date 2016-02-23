@@ -3,11 +3,11 @@
 
 {% block content %}
 
-	<div class="col-md-6">
-	  {% thumbnail image.image "300x400" crop="center" as im %}
-	 	<img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-	  {% endthumbnail %}
-	</div>
+    <div class="col-md-6">
+      {% thumbnail image.image "300x400" crop="center" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+      {% endthumbnail %}
+    </div>
 
 <ul>
     {% for message in messages.errors %}
@@ -15,39 +15,38 @@
     {% endfor %}
 </ul>
 
-	<h2> Select parts for image </h2>
-	<form action="" method="post">
-	  {% csrf_token %}
-	  <input type="hidden" id="image_id" name="image">
-	  {% for part in parts %}
-	  	<div class="checkbox">
-		  <label>
-		    <input type="checkbox" value="{{part.id}}" name="parts[]">
-		    {{part}}
-		  </label>
-		</div>
-	  {% endfor %}
+    <h2> Select parts for image </h2>
+    <form action="" method="post">
+      {% csrf_token %}
+      <input type="hidden" id="image_id" name="image">
+      {% for part in parts %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="{{part.id}}" name="parts[]">
+            {{part}}
+          </label>
+        </div>
+      {% endfor %}
 
-	  <input type="submit" value="save">
+      <input type="submit" value="save">
 
-	</form>
+    </form>
 
-	<!--  -->
-	<div class="col-md-6 margn">
-		<form action="" method="post">
-		{% csrf_token %}
-			{{form_part}}
-		  <input type="submit" value="save">
+    <!--  -->
+    <div class="col-md-6 margn">
+        <form action="" method="post">
+        {% csrf_token %}
+            {{form_part}}
+          <input type="submit" value="save">
 
-		</form>
-	</div>
+        </form>
+    </div>
 {% endblock content %}
 
 {% block javascript %}
 <script type="text/javascript">
   $( document ).ready(function() {
-  	console.log({{image.id}})
-  	 var img_id = {{image.id}}
+     var img_id = {{image.id}}
      $("#image_id").val(img_id)
   });
 </script>

@@ -1,17 +1,16 @@
 import os
 import PyPDF2
-from maps.forms import *
-from django.shortcuts import render
-from django.views.generic import View
-from django.views.generic import TemplateView
-# from django.views.generic.edit import CreateView
-from maps.models import *
-from wand.image import Image
-from datetime import datetime
+
+from django.conf import settings
 from django.contrib import messages
-from image_mapping import settings
-from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect, render
+from django.views.generic import View, TemplateView
+# from django.views.generic.edit import CreateView
+from wand.image import Image
+
+from maps.forms import BookForm, MapAttributeForm, PartForm
+from maps.models import MapAttribute, ImagePart, Part, PartFile
 
 
 class HomeView(TemplateView):
@@ -42,10 +41,10 @@ class ImageMapView(View):
         return render(request, "index.htm", {})
 
 
-class ShowImageView(View):
+class UploadBook(View):
 
     def get(self, request, *args, **kwargs):
-        form = ImageForm()
+        form = BookForm()
         images = PartFile.objects.all()
 
         ctx = {
@@ -56,55 +55,39 @@ class ShowImageView(View):
 
     def post(self, request, *args, **kwargs):
 
-        form = ImageForm(request.POST, request.FILES)
+        form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            book = form.save()
 
-            part_file = PartFile.objects.get(file_images=None)
+            full_filepath = os.path.join(settings.MEDIA_ROOT, "books", str(book.pk))
+            full_filepath_jpg = os.path.join(full_filepath, "jpg")
 
-            file_name = request.FILES['file'].name
-            current_timestamp = datetime.now().strftime('%d%m%Y_%H%M%S')
-            file_ = current_timestamp + " " + file_name
-            part_file.file_images = file_
-            part_file.save()
-            try:
-                os.mkdir(os.path.join(
-                    settings.MEDIA_ROOT, file_))
-            except:
-                pass
+            os.makedirs(full_filepath_jpg, exist_ok=True)
 
-            full_filename = os.path.join(
-                settings.MEDIA_ROOT, file_)
-
-            try:
-                os.mkdir(os.path.join(full_filename, "jpg"))
-            except:
-                pass
-
-            get_file_ins = PartFile.objects.get(file="files/"+file_name)
-            open_file = get_file_ins.file._get_path()
-            inputpdf = PyPDF2.PdfFileReader(open(open_file, "rb"))
+            # TODO: move to celery task
+            inputpdf = PyPDF2.PdfFileReader(open(book.file.file.name, "rb"))
 
             # Separate pdf pages
             for i in range(inputpdf.numPages):
+                # TODO: rewrite with in-memory files
                 output = PyPDF2.PdfFileWriter()
                 output.addPage(inputpdf.getPage(i))
-                file_write = full_filename + '/' + "%s-%s.pdf" % (file_name, i)
+                file_write = os.path.join(full_filepath, "%s-%s.pdf" % (str(book.pk), i))
                 with open(file_write, "wb") as outputStream:
                     output.write(outputStream)
                 # Converting one page into JPG
-                with Image(filename=file_write+"[0]") as img:
+                with Image(filename=file_write+"[0]", resolution=600) as img:
                     img.save(
-                        filename=full_filename+"/jpg/"+"%s-%s.jpg" % (file_, i))
+                        filename=os.path.join(full_filepath_jpg, "%s-%s.jpg" % (str(book.pk), i)))
 
                 try:
                     os.remove(file_write)
                 except OSError:
                     pass
 
-            return redirect(reverse('image_show'))
+            return redirect(reverse('upload_book'))
         else:
-            messages.error(request, "Form is Invaid")
+            messages.error(request, "Form is invalid")
 
         images = PartFile.objects.all()
         ctx = {
